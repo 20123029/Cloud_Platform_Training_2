@@ -1,0 +1,31 @@
+services:
+  # バックエンド
+  - type: web
+    name: matching-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      # ★古い DATABASE_URL を廃止し、2つのマルチDB用環境変数に分割
+      - key: STUDENT_DB_URL
+        fromDatabase:
+          name: matching-db-students
+          property: connectionString
+      - key: COMPANY_DB_URL
+        fromDatabase:
+          name: matching-db-companies
+          property: connectionString
+
+  # フロントエンド
+  - type: web
+    name: matching-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    publishDir: frontend/dist
+
+databases:
+  # ★データベースを2つ個別に定義（プランは無料枠のfree）
+  - name: matching-db-students
+    plan: free
+  - name: matching-db-companies
+    plan: free
