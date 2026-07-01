@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 export default function AdminCourses({ courses, onBack, loadData }) {
     const [editingId, setEditingId] = useState(null);
     const [form, setForm] = useState({ course_name: '', year: 1, course_type: '講義', target_track: '' });
@@ -11,7 +13,7 @@ export default function AdminCourses({ courses, onBack, loadData }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = editingId ? `http://127.0.0.1:8000/admin/courses/update/${editingId}` : 'http://127.0.0.1:8000/admin/courses/create';
+        const url = editingId ? `${API_URL}/admin/courses/update/${editingId}` : `${API_URL}/admin/courses/create`;
         try {
             const res = await fetch(url, {
                 method: editingId ? 'PUT' : 'POST',

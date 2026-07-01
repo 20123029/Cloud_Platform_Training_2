@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 export default function AdminStudents({ students, onBack, loadData }) {
     const [editingId, setEditingId] = useState(null);
     const [form, setForm] = useState({ student_number: '', name: '', email: '' });
@@ -11,7 +13,7 @@ export default function AdminStudents({ students, onBack, loadData }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = editingId ? `http://127.0.0.1:8000/admin/students/update/${editingId}` : 'http://127.0.0.1:8000/admin/students/create';
+        const url = editingId ? `${API_URL}/admin/students/update/${editingId}` : `${API_URL}/admin/students/create`;
         try {
             const res = await fetch(url, {
                 method: editingId ? 'PUT' : 'POST',
