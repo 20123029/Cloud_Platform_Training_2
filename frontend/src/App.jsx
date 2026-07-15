@@ -363,7 +363,6 @@ function AdminPage({ onLogout }) {
   if (currentView === 'companies_view') return <AdminCompanies companies={companies} coursesMaster={courses} onBack={() => setCurrentView('main')} loadData={loadAdminData} />;
   if (currentView === 'courses_view') return <AdminCourses courses={courses} onBack={() => setCurrentView('main')} loadData={loadAdminData} />;
   if (currentView === 'students_view') return <AdminStudents students={students} onBack={() => setCurrentView('main')} loadData={loadAdminData} />;
-  if (currentView === 'dashboard_view') return <AdminConsoleDashboard onBack={() => setCurrentView('main')} coursesMaster={courses} companies={companies} />;
 
   return (
     <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', padding: '3rem', fontFamily: 'sans-serif', color: '#0f172a' }}>
@@ -371,32 +370,25 @@ function AdminPage({ onLogout }) {
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '1.5rem' }}>
           <div>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0, color: '#0f172a' }}>システム統括マネジメントパネル</h2>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '0.5rem', marginBottom: 0 }}>データモデルの制御および各マスタの管理</p>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0, color: '#0f172a' }}>管理者画面</h2>
           </div>
           <button onClick={onLogout} style={{ padding: '0.6rem 1.5rem', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, color: '#475569' }}>ログアウト</button>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem' }}>
           <button onClick={() => setCurrentView('companies_view')} style={{ padding: '2rem', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.2s' }}>
-            <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>実習先企業マスタ</div>
+            <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>実習先企業情報</div>
             <p style={{ color: '#64748b', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>企業情報、定員、および要求履修科目の管理</p>
           </button>
 
           <button onClick={() => setCurrentView('courses_view')} style={{ padding: '2rem', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.2s' }}>
-            <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>講義マスタ</div>
+            <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>講義データ</div>
             <p style={{ color: '#64748b', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>配当年次、授業形態、専門コース属性の管理</p>
           </button>
 
           <button onClick={() => setCurrentView('students_view')} style={{ padding: '2rem', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.2s' }}>
             <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.5rem' }}>所属学生データ</div>
             <p style={{ color: '#64748b', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>学籍番号、氏名、メールアドレスの管理</p>
-          </button>
-        </div>
-
-        <div style={{ marginBottom: '3rem' }}>
-          <button onClick={() => setCurrentView('dashboard_view')} style={{ width: '100%', padding: '1.25rem', backgroundColor: '#0f172a', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '1rem', fontWeight: 600 }}>
-            シミュレーション制御コンソールを開く →
           </button>
         </div>
 

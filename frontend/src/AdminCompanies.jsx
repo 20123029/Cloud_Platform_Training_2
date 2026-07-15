@@ -25,7 +25,7 @@ export default function AdminCompanies({ companies, coursesMaster, onBack, loadD
                 body: JSON.stringify(form)
             });
             if (res.ok) {
-                alert(editingId ? '企業情報を修正しました' : '企業を新規登録しました');
+                alert(editingId ? '企業情報を修正しました' : '企業情報を新規登録しました');
                 setForm({ company_name: '', capacity: 1, location: '', business_domain: '', internship_description: '', required_course_ids: [] });
                 setEditingId(null);
                 loadData();
@@ -37,7 +37,7 @@ export default function AdminCompanies({ companies, coursesMaster, onBack, loadD
         <div style={{ padding: '3rem', maxWidth: '1100px', margin: '0 auto', color: '#0f172a', fontFamily: 'sans-serif' }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2.5rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '1.5rem' }}>
                 <button onClick={onBack} style={{ marginRight: '2rem', padding: '0.5rem 1rem', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 600, color: '#475569' }}>戻る</button>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>実習先企業マスター管理</h2>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>実習先企業情報 管理</h2>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '2.5rem' }}>
@@ -81,7 +81,7 @@ export default function AdminCompanies({ companies, coursesMaster, onBack, loadD
                     </div>
 
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <button type="submit" style={{ flex: 1, padding: '0.85rem', backgroundColor: '#0f172a', color: '#ffffff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 600 }}>{editingId ? '修正内容を保存' : '企業データを登録'}</button>
+                        <button type="submit" style={{ flex: 1, padding: '0.85rem', backgroundColor: '#0f172a', color: '#ffffff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 600 }}>{editingId ? '修正内容を保存' : '企業情報を登録'}</button>
                         {editingId && <button type="button" onClick={() => { setEditingId(null); setForm({ company_name: '', capacity: 1, location: '', business_domain: '', internship_description: '', required_course_ids: [] }); }} style={{ padding: '0.85rem', backgroundColor: '#ffffff', color: '#475569', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 600 }}>キャンセル</button>}
                     </div>
                 </form>

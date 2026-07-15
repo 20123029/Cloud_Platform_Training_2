@@ -2,7 +2,6 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# 3つのデータベースへの接続URL（ポート5433環境を想定。5432の場合は書き換えてください）
 STUDENT_DB_URL = os.environ.get("STUDENT_DB_URL", "postgresql://postgres:password@localhost:5433/matching_students")
 COMPANY_DB_URL = os.environ.get("COMPANY_DB_URL", "postgresql://postgres:password@localhost:5433/matching_companies")
 COURSE_DB_URL = os.environ.get("COURSE_DB_URL", "postgresql://postgres:password@localhost:5433/matching_courses")

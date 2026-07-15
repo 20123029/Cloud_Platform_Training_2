@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from sqlalchemy import text  # ★生SQL実行のために追加
+from sqlalchemy import text
 import database
 import models
 
@@ -58,7 +58,7 @@ class LoginInput(BaseModel):
 
 
 # ==========================================
-# 企業データ一覧取得 API (新設)
+# 企業情報一覧取得 API (新設)
 # ==========================================
 @app.get("/companies")
 def get_companies(company_db: Session = Depends(database.get_company_db), course_db: Session = Depends(database.get_course_db)):
@@ -203,7 +203,7 @@ def create_company(data: CompanyInput, company_db: Session = Depends(database.ge
         course_db.add(models.CompanyRequirementCourse(company_id=new_comp.id, course_id=cid))
     company_db.commit()
     course_db.commit()
-    return {"status": "success", "message": "企業データを新規登録しました。"}
+    return {"status": "success", "message": "企業情報を新規登録しました。"}
 
 @app.put("/companies/update/{company_id}")
 def update_company(company_id: int, data: CompanyInput, company_db: Session = Depends(database.get_company_db), course_db: Session = Depends(database.get_course_db)):
@@ -220,10 +220,10 @@ def update_company(company_id: int, data: CompanyInput, company_db: Session = De
         course_db.add(models.CompanyRequirementCourse(company_id=company_id, course_id=cid))
     company_db.commit()
     course_db.commit()
-    return {"status": "success", "message": "企業データを修正・更新しました。"}
+    return {"status": "success", "message": "企業情報を修正・更新しました。"}
 
 # ==========================================
-# 講義マスタ管理 API
+# 講義データ管理 API
 # ==========================================
 @app.get("/admin/courses")
 def get_admin_courses(course_db: Session = Depends(database.get_course_db)):
@@ -234,7 +234,7 @@ def create_course(data: CourseInput, course_db: Session = Depends(database.get_c
     new_c = models.CourseMaster(course_name=data.course_name, year=data.year, course_type=data.course_type, target_track=data.target_track)
     course_db.add(new_c)
     course_db.commit()
-    return {"status": "success", "message": "講義マスタを新規登録しました。"}
+    return {"status": "success", "message": "講義データを新規登録しました。"}
 
 @app.put("/admin/courses/update/{course_id}")
 def update_course(course_id: int, data: CourseInput, course_db: Session = Depends(database.get_course_db)):
@@ -245,7 +245,7 @@ def update_course(course_id: int, data: CourseInput, course_db: Session = Depend
     c.course_type = data.course_type
     c.target_track = data.target_track
     course_db.commit()
-    return {"status": "success", "message": "講義マスタを更新しました。"}
+    return {"status": "success", "message": "講義データを更新しました。"}
 
 # ==========================================
 # 学生データ管理 API
@@ -319,7 +319,6 @@ def setup_mock_data(
     course_db: Session = Depends(database.get_course_db)
 ):
     try:
-        # ★【修正】PostgreSQLの主キーシーケンス（Serial型カウンタ）を1にリセットして全削除
         db.execute(text("TRUNCATE TABLE match_results, student_preferences, students RESTART IDENTITY CASCADE;"))
         company_db.execute(text("TRUNCATE TABLE companies RESTART IDENTITY CASCADE;"))
         course_db.execute(text("TRUNCATE TABLE company_requirement_courses, student_courses, course_masters RESTART IDENTITY CASCADE;"))
@@ -328,30 +327,25 @@ def setup_mock_data(
         company_db.commit()
         course_db.commit()
 
-        # 2. 講義マスタの投入 
         c1 = models.CourseMaster(course_name="量子力学セミナー", year=3, course_type="演習", target_track="量子計算")
         c2 = models.CourseMaster(course_name="バイオ情報テクノロジー", year=2, course_type="実習", target_track="バイオ情報科学")
         c3 = models.CourseMaster(course_name="高度先端アルゴリズム論", year=4, course_type="講義", target_track="情報工学")
         course_db.add_all([c1, c2, c3])
         course_db.flush()
 
-        # 3. 初期学生の投入 (これで山田太郎が毎回確実に ID: 1 に固定されます)
         s1 = models.Student(student_number="S202601", name="山田太郎", email="yamada@univ.ac.jp")
         s2 = models.Student(student_number="S202602", name="鈴木二郎", email="suzuki@univ.ac.jp")
         db.add_all([s1, s2])
         db.flush()
 
-        # 4. 学生の初期履修データの登録
         course_db.add(models.StudentCourse(student_id=s1.id, course_id=c1.id))
         course_db.add(models.StudentCourse(student_id=s1.id, course_id=c2.id))
         course_db.add(models.StudentCourse(student_id=s2.id, course_id=c2.id))
 
-        # 5. 初期企業の投入
-        comp1 = models.Company(company_name="Mebius先端バイオ量子研究所", capacity=2, location="東京", business_domain="バイオ×量子", internship_description="量子アルゴリズムを適用した新規創薬プロトタイピングの実習。")
+        comp1 = models.Company(company_name="先端バイオ量子研究所", capacity=2, location="東京", business_domain="バイオ×量子", internship_description="量子アルゴリズムを適用した新規創薬プロトタイピングの実習。")
         company_db.add(comp1)
         company_db.flush()
 
-        # 6. 企業の要求授業の登録
         course_db.add(models.CompanyRequirementCourse(company_id=comp1.id, course_id=c1.id))
 
         db.commit()

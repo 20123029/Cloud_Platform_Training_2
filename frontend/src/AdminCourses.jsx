@@ -21,7 +21,7 @@ export default function AdminCourses({ courses, onBack, loadData }) {
                 body: JSON.stringify(form)
             });
             if (res.ok) {
-                alert(editingId ? '講義を修正しました' : '新規講義マスタを登録しました');
+                alert(editingId ? '講義データを修正しました' : '新規講義データを登録しました');
                 setForm({ course_name: '', year: 1, course_type: '講義', target_track: '' });
                 setEditingId(null);
                 loadData();
@@ -33,12 +33,12 @@ export default function AdminCourses({ courses, onBack, loadData }) {
         <div style={{ padding: '3rem', maxWidth: '1100px', margin: '0 auto', color: '#0f172a', fontFamily: 'sans-serif' }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2.5rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '1.5rem' }}>
                 <button onClick={onBack} style={{ marginRight: '2rem', padding: '0.5rem 1rem', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 600, color: '#475569' }}>戻る</button>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>カリキュラム講義マスタ管理</h2>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>カリキュラム講義データ管理</h2>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '2.5rem' }}>
                 <form onSubmit={handleSubmit} style={{ backgroundColor: '#ffffff', padding: '2.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                    <h3 style={{ marginTop: 0, marginBottom: '2rem', fontSize: '1.1rem', fontWeight: 600 }}>{editingId ? '講義マスタの詳細修正' : 'カリキュラム科目の新設'}</h3>
+                    <h3 style={{ marginTop: 0, marginBottom: '2rem', fontSize: '1.1rem', fontWeight: 600 }}>{editingId ? '講義データの詳細修正' : 'カリキュラム科目の新設'}</h3>
                     <div style={{ marginBottom: '1.5rem' }}>
                         <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#475569' }}>講義名</label>
                         <input type="text" value={form.course_name} onChange={e => setForm({ ...form, course_name: e.target.value })} placeholder="例: 量子力学演習基礎" style={{ width: '100%', padding: '0.75rem', border: '1px solid #cbd5e1', borderRadius: '4px', boxSizing: 'border-box' }} required />
